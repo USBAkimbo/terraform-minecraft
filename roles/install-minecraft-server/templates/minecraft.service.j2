@@ -1,0 +1,19 @@
+[Unit]
+Description=Minecraft Server
+After=network.target
+
+[Service]
+User=minecraft
+Nice=1
+KillMode=none
+SuccessExitStatus=0 1
+ProtectHome=true
+ProtectSystem=full
+PrivateDevices=true
+NoNewPrivileges=true
+WorkingDirectory=/opt/minecraft
+ExecStart=/usr/bin/java -Xmx8G -Xms8G -jar purpur-1.19.3-1883.jar nogui
+ExecStop=/opt/minecraft/mcrcon -H 127.0.0.1 -P 25575 -p {{ mcrcon_password }} stop
+
+[Install]
+WantedBy=multi-user.target

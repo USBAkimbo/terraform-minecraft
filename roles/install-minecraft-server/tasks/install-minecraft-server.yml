@@ -1,0 +1,119 @@
+- name: Install Java JRE
+  apt:
+    name: openjdk-17-jre-headless
+    state: latest
+
+- name: Check if rclone is already installed
+  stat:
+    path: /bin/rclone
+  register: rclone_installed
+
+- name: Download rclone
+  get_url:
+    url: https://downloads.rclone.org/rclone-current-linux-arm64.deb
+    dest: /tmp/rclone-current-linux-arm64.deb
+    mode: 0700
+  when: not rclone_installed.stat.exists
+
+- name: Install rclone
+  apt:
+    deb: /tmp/rclone-current-linux-arm64.deb
+  when: not rclone_installed.stat.exists
+
+- name: Create Minecraft Ubuntu user account
+  user:
+    name: minecraft
+    shell: /bin/bash
+    home: /opt/minecraft
+
+- name: Create Minecraft server data directory
+  file:
+    path: /opt/minecraft
+    state: directory
+    recurse: yes
+    owner: minecraft
+    mode: 0700
+
+- name: Create Minecraft server backups directory
+  file:
+    path: /opt/minecraft-backups
+    state: directory
+    recurse: yes
+    owner: minecraft
+    mode: 0700
+
+- name: Create rclone config directory
+  file:
+    path: /opt/minecraft/.config/rclone
+    state: directory
+    recurse: yes
+    owner: minecraft
+    mode: 0700
+
+- name: Copy rclone config
+  copy:
+    src: rclone.conf
+    dest: /opt/minecraft/.config/rclone/rclone.conf
+    owner: minecraft
+    mode: 0600
+
+- name: Copy server.properties
+  template:
+    src: server.properties.j2
+    dest: /opt/minecraft/server.properties
+    owner: minecraft
+    mode: 0600
+
+- name: Copy backup-server.sh
+  template:
+    src: backup-server.sh.j2
+    dest: /opt/minecraft/backup-server.sh
+    owner: minecraft
+    mode: 0700
+
+- name: Copy minecraft.service
+  template:
+    src: minecraft.service.j2
+    dest: /etc/systemd/system/minecraft.service
+    owner: root
+    mode: 0644
+
+- name: Copy EULA
+  copy:
+    src: eula.txt
+    dest: /opt/minecraft/eula.txt
+    owner: minecraft
+    mode: 0600
+
+- name: Copy mcrcon
+  copy:
+    src: mcrcon
+    dest: /opt/minecraft/mcrcon
+    owner: minecraft
+    mode: 0700
+
+- name: Copy purpur-1.19.3-1883.jar
+  copy:
+    src: purpur-1.19.3-1883.jar
+    dest: /opt/minecraft/purpur-1.19.3-1883.jar
+    owner: minecraft
+    mode: 0600
+
+- name: Copy crontab
+  copy:
+    src: crontab
+    dest: /etc/crontab
+    owner: root
+    mode: 0644
+
+- name: Start server and enable Minecraft service
+  systemd:
+    name: minecraft
+    state: started
+    enabled: yes
+
+- name: Fix iptables so people can connect
+  command: iptables -I INPUT -j ACCEPT
+
+- name: Save iptables rules
+  shell: iptables-save > /etc/iptables/rules.v4
