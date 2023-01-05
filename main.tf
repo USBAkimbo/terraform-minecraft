@@ -211,7 +211,7 @@ resource "null_resource" "ansible" {
   }
 }
 
-# Create DNS A record in Cloudflare for Filebrowser
+# Create DNS A record in Cloudflare
 resource "cloudflare_record" "minecraft" {
   zone_id = var.cf_zone_id
   name    = var.cf_dns_minecraft

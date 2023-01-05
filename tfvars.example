@@ -1,4 +1,4 @@
-# Account info
+# Account info vars
 tenancy_ocid               = "xxxx"
 user_ocid                  = "xxxx"
 fingerprint                = "xxxx"
@@ -9,15 +9,15 @@ region                     = "uk-london-1"
 availability_domain        = "IIdQ:UK-LONDON-1-AD-2"
 availability_domain_number = "2"
 
-# Compute
-vm_name     = "oc-vm1"
-vm_shape    = "VM.Standard.E2.1.Micro"
-vm_ocpus    = "1"
-vm_ram      = "1"
-vm_os_image = "ocid1.image.oc1.uk-london-1.aaaaaaaaapng5umnhjegcjwxhqwzms6fmb7hcksxavz2xzv4queab3jbyq7a" # August 2022 image - https://docs.oracle.com/en-us/iaas/images/all/?search=ubuntu
+# Compute vars
+vm_name     = "minecraft"
+vm_shape    = "VM.Standard.A1.Flex"
+vm_ocpus    = "4"
+vm_ram      = "24"
+vm_os_image = "ocid1.image.oc1.uk-london-1.aaaaaaaacd6wvghqqeocouaahlveplsl4bkutztyz6rstu5bag6limxr5rxa"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   # Nov 2022 image - https://docs.oracle.com/en-us/iaas/images/image/891b9a0e-03f7-4a76-b421-c35f6a7cfa72/
 ssh_key     = "xxxx" # SSH public key
 
-# Networking
+# Networking vars
 net_vcn_name    = "vcn"
 net_subnet_name = "vcn-sub"
 net_cidr_block  = "10.10.0.0/16"
@@ -26,4 +26,4 @@ net_subnet      = "10.10.12.0/24"
 # Cloudflare vars
 cf_api_token = "xxxx"
 cf_zone_id   = "xxxx"
-cf_dns_record = "filebrowser-cloud"
+cf_dns_minecraft = "minecraft"

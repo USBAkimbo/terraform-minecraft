@@ -7,6 +7,8 @@
   - Triggers Ansible to
     - Automate patching
     - Install and setup Minecraft server
+    - Configure automatic local backups with 7 day retention
+    - Configure automatic backup copies to Mega
     - Install Zabbix agent for monitoring
 
 # Requirements
