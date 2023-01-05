@@ -1,15 +1,16 @@
 # What is this?
 - This is a repo for my Terraform config for Oracle Cloud
 - This config automatically creates a minecraft server running Purpur server version 1.19.3
+- This server is resilient to automatic reboots and should be pretty reliable
 - This performs the following steps
   - Spins up an instance of Ubuntu Server using the Always Free tier ARM server with 4 OCPUs and 24GB of RAM
   - Creates a DNS record for your server in Cloudflare DNS
   - Triggers Ansible to
     - Automate patching
-    - Install and setup Minecraft server
-    - Configure automatic local backups with 7 day retention
-    - Configure automatic backup copies to Mega
     - Install Zabbix agent for monitoring
+    - Install and setup Minecraft server
+    - Configure automatic local backups every 12 hours with 7 day retention
+    - Configure automatic backup copies to Mega
 
 # Requirements
 - Linux machine to run this from (WSL works on Windows)
