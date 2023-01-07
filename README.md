@@ -60,6 +60,10 @@ ansible-vault encrypt_string yourstringhere
     email: me@example.com
     dns_name: example.mydomain.com
 ```
+- Create the `ansible-vault-key` file to allow the Ansible command to run in Terraform
+```
+echo "vaultpasswordhere" >> ansible-vault-keyaaa
+```
 - Once this is all done, run the following to start the build
 ```
 terraform apply
