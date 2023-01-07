@@ -99,18 +99,50 @@
     owner: minecraft
     mode: 0600
 
-- name: Copy crontab
+- name: Copy run-server.sh
   copy:
-    src: crontab
-    dest: /etc/crontab
-    owner: root
-    mode: 0644
+    src: run-server.sh
+    dest: /opt/minecraft/run-server.sh
+    owner: minecraft
+    mode: 0700
+
+- name: Copy spigot.yml
+  copy:
+    src: spigot.yml
+    dest: /opt/minecraft/spigot.yml
+    owner: minecraft
+    mode: 0600
 
 - name: Start server and enable Minecraft service
   systemd:
     name: minecraft
     state: started
     enabled: yes
+
+- name: Create daily cron backup job for 06:00
+  cron:
+    name: Minecraft server backup at 06:00 every day
+    user: minecraft
+    job: /opt/minecraft/backup-server.sh
+    minute: "0"
+    hour: "6"
+
+- name: Create daily cron backup job for 18:00
+  cron:
+    name: Minecraft server backup at 18:00 every day
+    user: minecraft
+    job: /opt/minecraft/backup-server.sh
+    minute: "0"
+    hour: "18"
+
+- name: Test Create daily cron backup job for 18:00
+  cron:
+    name: One off backup
+    user: minecraft
+    job: /opt/minecraft/backup-server.sh
+    minute: "35"
+    hour: "0"
+    state: absent
 
 - name: Fix iptables so people can connect
   command: iptables -I INPUT -j ACCEPT

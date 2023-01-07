@@ -1,0 +1,1 @@
+java -Xmx8G -Xms8G -jar /opt/minecraft/purpur-1.19.3-1883.jar nogui
