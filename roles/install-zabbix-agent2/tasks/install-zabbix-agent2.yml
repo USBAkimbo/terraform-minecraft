@@ -48,11 +48,6 @@
     group: zabbix
     mode: 0660
 
-#- name: Add Zabbix user to Docker group
-#  user:
-#    name: zabbix
-#    groups: docker
-
 - name: Restart and enable Zabbix Agent 2 service
   systemd:
     name: zabbix-agent2
