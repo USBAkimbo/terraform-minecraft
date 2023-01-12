@@ -26,13 +26,20 @@
     shell: /bin/bash
     home: /opt/minecraft
 
+- name: Add Zabbix account to Minecraft group
+  user:
+    name: zabbix
+    groups:
+      - minecraft
+
 - name: Create Minecraft server data directory
   file:
     path: /opt/minecraft
     state: directory
     recurse: yes
     owner: minecraft
-    mode: 0700
+    group: minecraft
+    mode: 0740
 
 - name: Create Minecraft server backups directory
   file:
@@ -134,15 +141,6 @@
     job: /opt/minecraft/backup-server.sh
     minute: "0"
     hour: "18"
-
-- name: Test Create daily cron backup job for 18:00
-  cron:
-    name: One off backup
-    user: minecraft
-    job: /opt/minecraft/backup-server.sh
-    minute: "35"
-    hour: "0"
-    state: absent
 
 - name: Fix iptables so people can connect
   command: iptables -I INPUT -j ACCEPT
