@@ -20,7 +20,7 @@
     deb: /tmp/rclone-current-linux-arm64.deb
   when: not rclone_installed.stat.exists
 
-- name: Create Minecraft Ubuntu user account
+- name: Create Minecraft user account
   user:
     name: minecraft
     shell: /bin/bash
@@ -39,7 +39,7 @@
     recurse: yes
     owner: minecraft
     group: minecraft
-    mode: 0740
+    mode: 0750
 
 - name: Create Minecraft server backups directory
   file:
