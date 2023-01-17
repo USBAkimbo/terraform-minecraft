@@ -35,7 +35,7 @@ mcrcon "say [Info] Backups older than 7 days deleted!"
 sleep 1s
 
 mcrcon "say [Info] Copying all local server backups to Mega"
-rclone copy /opt/minecraft-backups/ mega:
+rclone sync /opt/minecraft-backups/ mega:
 sleep 1s
 
 mcrcon "say [Info] rclone backup copy complete!"
