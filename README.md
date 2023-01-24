@@ -62,7 +62,7 @@ ansible-vault encrypt_string yourstringhere
 ```
 - Create the `ansible-vault-key` file to allow the Ansible command to run in Terraform
 ```
-echo "vaultpasswordhere" >> ansible-vault-keyaaa
+echo "vaultpasswordhere" >> ansible-vault-key
 ```
 - Once this is all done, run the following to start the build
 ```
