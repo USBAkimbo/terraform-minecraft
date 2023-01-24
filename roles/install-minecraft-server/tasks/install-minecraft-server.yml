@@ -50,15 +50,6 @@
     group: minecraft
     mode: 0750
 
-- name: Create Minecraft server plugins directory
-  file:
-    path: /opt/minecraft/plugins
-    state: directory
-    recurse: yes
-    owner: minecraft
-    group: minecraft
-    mode: 0750
-
 - name: Check if Purpur is already installed
   stat:
     path: /opt/minecraft/purpur-server.jar
@@ -141,20 +132,6 @@
     dest: /opt/minecraft/paper.yml
     owner: minecraft
     mode: 0600
-
-- name: Copy Lithium
-  copy:
-    src: lithium-fabric-mc1.19.3-0.10.4.jar
-    dest: /opt/minecraft/plugins/lithium-fabric-mc1.19.3-0.10.4.jar
-    owner: minecraft
-    mode: 0700
-
-- name: Copy C2ME
-  copy:
-    src: c2me-fabric-mc1.19.3-0.2.0+alpha.10.0.jar
-    dest: /opt/minecraft/plugins/c2me-fabric-mc1.19.3-0.2.0+alpha.10.0.jar
-    owner: minecraft
-    mode: 0700
 
 - name: Start server and enable Minecraft service
   systemd:
