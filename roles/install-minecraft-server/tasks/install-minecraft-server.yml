@@ -139,21 +139,12 @@
     state: started
     enabled: yes
 
-- name: Create daily cron backup job for 06:00
+- name: Create hourly cron backup job
   cron:
-    name: Minecraft server backup at 06:00 every day
+    name: Minecraft server backup every hour
     user: minecraft
     job: /opt/minecraft/backup-server.sh
     minute: "0"
-    hour: "6"
-
-- name: Create daily cron backup job for 18:00
-  cron:
-    name: Minecraft server backup at 18:00 every day
-    user: minecraft
-    job: /opt/minecraft/backup-server.sh
-    minute: "0"
-    hour: "18"
 
 - name: Fix iptables so people can connect
   command: iptables -I INPUT -j ACCEPT
