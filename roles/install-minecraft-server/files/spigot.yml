@@ -64,7 +64,7 @@ world-settings:
     merge-radius:
       item: 2.5
       exp: 3.0
-    view-distance: default
+    view-distance: 7
     simulation-distance: default
     thunder-chance: 100000
     item-despawn-rate: 6000

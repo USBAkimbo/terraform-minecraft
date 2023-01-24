@@ -41,6 +41,15 @@
     group: minecraft
     mode: 0750
 
+- name: Create Minecraft server backups directory
+  file:
+    path: /opt/minecraft-backups
+    state: directory
+    recurse: yes
+    owner: minecraft
+    group: minecraft
+    mode: 0750
+
 - name: Create Minecraft server plugins directory
   file:
     path: /opt/minecraft/plugins
@@ -50,13 +59,17 @@
     group: minecraft
     mode: 0750
 
-- name: Create Minecraft server backups directory
-  file:
-    path: /opt/minecraft-backups
-    state: directory
-    recurse: yes
-    owner: minecraft
+- name: Check if Purpur is already installed
+  stat:
+    path: /opt/minecraft/purpur-server.jar
+  register: purpur_installed
+
+- name: Download Purpur
+  get_url:
+    url: https://api.purpurmc.org/v2/purpur/1.19.3/latest/download
+    dest: /opt/minecraft/purpur-server.jar
     mode: 0700
+  when: not purpur_installed.stat.exists
 
 - name: Create rclone config directory
   file:
@@ -108,13 +121,6 @@
     owner: minecraft
     mode: 0700
 
-- name: Copy purpur-1.19.3-1883.jar
-  copy:
-    src: purpur-1.19.3-1883.jar
-    dest: /opt/minecraft/purpur-1.19.3-1883.jar
-    owner: minecraft
-    mode: 0600
-
 - name: Copy run-server.sh
   copy:
     src: run-server.sh
@@ -129,17 +135,24 @@
     owner: minecraft
     mode: 0600
 
-- name: Copy fabric-api-0.73.0+1.19.3.jar
+- name: Copy paper.yml
   copy:
-    src: fabric-api-0.73.0+1.19.3.jar
-    dest: /opt/minecraft/plugins/fabric-api-0.73.0+1.19.3.jar
+    src: paper.yml
+    dest: /opt/minecraft/paper.yml
+    owner: minecraft
+    mode: 0600
+
+- name: Copy Lithium
+  copy:
+    src: lithium-fabric-mc1.19.3-0.10.4.jar
+    dest: /opt/minecraft/plugins/lithium-fabric-mc1.19.3-0.10.4.jar
     owner: minecraft
     mode: 0700
 
-- name: Copy starlight-1.1.1+fabric.ae22326.jar
+- name: Copy C2ME
   copy:
-    src: starlight-1.1.1+fabric.ae22326.jar
-    dest: /opt/minecraft/plugins/starlight-1.1.1+fabric.ae22326.jar
+    src: c2me-fabric-mc1.19.3-0.2.0+alpha.10.0.jar
+    dest: /opt/minecraft/plugins/c2me-fabric-mc1.19.3-0.2.0+alpha.10.0.jar
     owner: minecraft
     mode: 0700
 
