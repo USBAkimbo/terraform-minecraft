@@ -3,14 +3,7 @@ function mcrcon {
 /opt/minecraft/mcrcon -p {{ mcrcon_password }} "$1"
 }
 
-dt=$(date "+%Y-%m-%d--%H-%M")
-
-###
-
-mcrcon "say [Info] Server backup starting"
-sleep 1s
-
-mcrcon "say [Info] Backups run twice a day at 06:00 and 18:00"
+mcrcon "say [Info] Hourly server backup starting"
 sleep 1s
 
 mcrcon "save-off"
@@ -19,7 +12,7 @@ sleep 1s
 mcrcon "save-all"
 sleep 1s
 
-tar -cvpzf /opt/minecraft-backups/$dt-backup.tar.gz /opt/minecraft
+kopia snapshot create /opt/minecraft
 sleep 1s
 
 mcrcon "save-on"
@@ -28,15 +21,9 @@ sleep 1s
 mcrcon "say [Info] Server backup complete!"
 sleep 1s
 
-mcrcon "say [Info] Deleting backups older than 7 days"
-find /opt/minecraft-backups -type f -mtime +7 -name "*backup.tar.gz" -delete
-
-mcrcon "say [Info] Backups older than 7 days deleted!"
-sleep 1s
-
 mcrcon "say [Info] Copying all local server backups to Mega"
-rclone sync /opt/minecraft-backups/ mega:
+rclone sync /opt/minecraft-backups mega:
 sleep 1s
 
-mcrcon "say [Info] rclone backup copy complete!"
+mcrcon "say [Info] Backup copy complete!"
 sleep 1s
