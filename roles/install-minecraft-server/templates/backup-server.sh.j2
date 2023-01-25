@@ -22,7 +22,7 @@ mcrcon "say [Info] Server backup complete!"
 sleep 1s
 
 mcrcon "say [Info] Copying all local server backups to Mega"
-rclone sync /opt/minecraft-backups mega:
+rclone sync /opt/minecraft-backups/ mega:
 sleep 1s
 
 mcrcon "say [Info] Backup copy complete!"
