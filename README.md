@@ -119,16 +119,21 @@ kopia snapshot list
 - You should now have a snapshot, so the backups work!
 - You can also modify the Kopia policy for backup retention using the following example commands
 ```
-kopia policy set --global --keep-annual 0
-kopia policy set --global --keep-monthly 2
-kopia policy set --global --keep-weekly 4
 kopia policy set --global --keep-hourly 24
+kopia policy set --global --keep-daily 7
+kopia policy set --global --keep-weekly 4
+kopia policy set --global --keep-monthly 2
+kopia policy set --global --keep-annual 0
 ```
 - These commands will keep
   - 24 hourly backups (hourly backups for 1 day)
   - 7 daily backups (daily backups for 1 week)
   - 4 weekly backups (weekly backups for 1 month)
   - 2 monthly backups (1 backup per month for 2 months)
+  - 0 yearly backups (enable this if you want)
+  
+  
+  
 - [Read the Kopia docs for more info](https://kopia.io/docs/)
 
 ## Backup script
