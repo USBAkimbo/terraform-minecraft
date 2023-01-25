@@ -131,9 +131,6 @@ kopia policy set --global --keep-annual 0
   - 4 weekly backups (weekly backups for 1 month)
   - 2 monthly backups (1 backup per month for 2 months)
   - 0 yearly backups (enable this if you want)
-  
-  
-  
 - [Read the Kopia docs for more info](https://kopia.io/docs/)
 
 ## Backup script
