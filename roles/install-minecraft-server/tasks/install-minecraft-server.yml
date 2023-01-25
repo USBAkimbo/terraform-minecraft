@@ -20,6 +20,23 @@
     deb: /tmp/rclone-current-linux-arm64.deb
   when: not rclone_installed.stat.exists
 
+- name: Check if Kopia is already installed
+  stat:
+    path: /bin/kopia
+  register: kopia_installed
+
+- name: Download kopia
+  get_url:
+    url: https://github.com/kopia/kopia/releases/download/v0.12.1/kopia_0.12.1_linux_arm64.deb
+    dest: /tmp/kopia_0.12.1_linux_arm64.deb
+    mode: 0700
+  when: not kopia_installed.stat.exists
+
+- name: Install kopia
+  apt:
+    deb: /tmp/kopia_0.12.1_linux_arm64.deb
+  when: not kopia_installed.stat.exists
+
 - name: Create Minecraft user account
   user:
     name: minecraft
