@@ -131,7 +131,7 @@ kopia policy set --global --keep-hourly 24
   - 2 monthly backups (1 backup per month for 2 months)
 - [Read the Kopia docs for more info](https://kopia.io/docs/)
 
-## Minecraft server backups
+## Backup script
 - Now you need to modify `backup-server.sh` in `/opt/minecraft`
 - The mcrcon password should be what you set in your Ansible config
 - Just ensure that your 2 commands that matter are correct
