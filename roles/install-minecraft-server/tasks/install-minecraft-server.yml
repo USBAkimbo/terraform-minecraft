@@ -74,8 +74,9 @@
 
 - name: Download Purpur
   get_url:
-    url: https://api.purpurmc.org/v2/purpur/1.19.3/latest/download
+    url: https://api.purpurmc.org/v2/purpur/1.19.4/latest/download
     dest: /opt/minecraft/purpur-server.jar
+    owner: minecraft
     mode: 0700
   when: not purpur_installed.stat.exists
 
@@ -143,10 +144,10 @@
     owner: minecraft
     mode: 0600
 
-- name: Copy paper.yml
+- name: Copy purpur.yml
   copy:
-    src: paper.yml
-    dest: /opt/minecraft/paper.yml
+    src: purpur.yml
+    dest: /opt/minecraft/purpur.yml
     owner: minecraft
     mode: 0600
 
