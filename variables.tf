@@ -1,8 +1,8 @@
 # Account info vars
 variable "tenancy_ocid" {
-    description = "Oracle tenancy ID"
-    sensitive = true
-    type = string
+  description = "Oracle tenancy ID"
+  sensitive   = true
+  type        = string
 }
 variable "user_ocid" {}
 variable "fingerprint" {}
