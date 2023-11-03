@@ -1,0 +1,29 @@
+# Account info vars
+tenancy_ocid               = "terraform.tfvars"
+user_ocid                  = "terraform.tfvars"
+compartment_ocid           = "terraform.tfvars"
+fingerprint                = "xxxx"
+private_key_path           = "/home/user/.oci/oci-priv.pem"
+public_key_path            = "/home/user/.oci/oci-pub.pem"
+region                     = "uk-london-1"
+availability_domain        = "IIdQ:UK-LONDON-1-AD-2"
+availability_domain_number = "2"
+
+# Compute vars
+vm_name     = "minecraft"
+vm_shape    = "VM.Standard.A1.Flex"
+vm_ocpus    = "4"
+vm_ram      = "24"
+vm_os_image = "ocid1.image.oc1.uk-london-1.aaaaaaaadss7wmtwyocobcpmikosddt7bwb6rkvyvua36pvkfig3ezfr2b3a" # Sep 2023 image - https://docs.oracle.com/en-us/iaas/images/image/84a75e6a-f775-4fb8-b934-6104d7c5ea0d/
+ssh_key     = "xxxx"                                                                                     # SSH public key
+
+# Networking vars
+net_vcn_name    = "vcn"
+net_subnet_name = "vcn-sub"
+net_cidr_block  = "10.10.0.0/16"
+net_subnet      = "10.10.12.0/24"
+
+# Cloudflare vars
+cf_api_token     = "xxxx"
+cf_zone_id       = "xxxx"
+cf_dns_minecraft = "minecraft"
