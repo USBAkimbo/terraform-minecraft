@@ -1,0 +1,7 @@
+# Backend
+terraform {
+  backend "http" {
+    address       = "https://objectstorage...."
+    update_method = "PUT"
+  }
+}
