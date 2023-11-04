@@ -48,6 +48,7 @@
     name: zabbix
     groups:
       - minecraft
+  ignore_errors: true
 
 - name: Restart and enable Zabbix Agent 2 service
   systemd:

@@ -4,6 +4,9 @@ ansible-vault-key
 # Terraform creds
 *.tfvars
 
+# Terraform backend because the URL has a secret in it and vars are not allowed
+backend.tf
+
 # Local .terraform directories
 **/.terraform/*
 .terraform

@@ -1,11 +1,19 @@
+- name: Create All The Mods 9 folder
+  file:
+    path: /opt/minecraft/servers/atm9/
+    state: directory
+    mode: 0660
+    owner: minecraft
+    group: minecraft
+
 - name: Check if server has already been downloaded
   stat:
     path: /opt/minecraft/servers/atm9/eula.txt
   register: atm9_installed
 
 - name: Download All The Mods 9 v0.2.11
-  get_url:
-    url: https://mediafilez.forgecdn.net/files/4830/340/Server-Files-0.2.11.zip
+  unarchive:
+    src: https://mediafilez.forgecdn.net/files/4830/340/Server-Files-0.2.11.zip
     dest: /opt/minecraft/servers/atm9/
     mode: 0770
     owner: minecraft

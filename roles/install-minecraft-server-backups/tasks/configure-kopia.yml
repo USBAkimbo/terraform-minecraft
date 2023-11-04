@@ -17,12 +17,10 @@
   register: kopia_configured
 
 - name: Create kopia local filesystem repository
-  become_user: minecraft
   shell: kopia repository create filesystem --path /opt/minecraft/backups/kopia -p={{ kopia_password }}
   when: not kopia_configured.stat.exists
 
 - name: Configure Kopia snapshot retention policy
-  become_user: minecraft
   shell: |
       kopia policy set --global --keep-hourly 24
       kopia policy set --global --keep-daily 7
