@@ -2,7 +2,7 @@
   file:
     path: /opt/minecraft/servers/atm9/
     state: directory
-    mode: 0660
+    mode: 0770
     owner: minecraft
     group: minecraft
 
