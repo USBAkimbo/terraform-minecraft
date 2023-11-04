@@ -51,12 +51,3 @@
     owner: minecraft
     group: minecraft
     mode: 0770
-
-- name: Create kopia config directory
-  file:
-    path: /opt/minecraft/.config/kopia
-    state: directory
-    recurse: yes
-    owner: minecraft
-    group: minecraft
-    mode: 0770

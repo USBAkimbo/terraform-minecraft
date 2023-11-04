@@ -1,8 +1,8 @@
 - name: Copy rclone config
   template:
     src: rclone.conf.j2
-    dest: /opt/minecraft/.config/rclone/rclone.conf
-    owner: minecraft
+    dest: /root/.config/rclone/rclone.conf
+    owner: root
     mode: 0600
 
 - name: Copy backup-server.sh
