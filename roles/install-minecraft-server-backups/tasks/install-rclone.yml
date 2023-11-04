@@ -1,0 +1,16 @@
+- name: Check if rclone is already installed
+  stat:
+    path: /bin/rclone
+  register: rclone_installed
+
+- name: Download rclone
+  get_url:
+    url: https://downloads.rclone.org/rclone-current-linux-arm64.deb
+    dest: /tmp/rclone-current-linux-arm64.deb
+    mode: 0700
+  when: not rclone_installed.stat.exists
+
+- name: Install rclone
+  apt:
+    deb: /tmp/rclone-current-linux-arm64.deb
+  when: not rclone_installed.stat.exists

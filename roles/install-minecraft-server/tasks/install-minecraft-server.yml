@@ -1,6 +1,6 @@
 - name: Install Java JRE
   apt:
-    name: openjdk-17-jre-headless
+    name: openjdk-19-jre-headless
     state: latest
 
 - name: Check if rclone is already installed
@@ -163,9 +163,3 @@
     user: minecraft
     job: /opt/minecraft/backup-server.sh
     minute: "0"
-
-- name: Fix iptables so people can connect
-  command: iptables -I INPUT -j ACCEPT
-
-- name: Save iptables rules
-  shell: iptables-save > /etc/iptables/rules.v4

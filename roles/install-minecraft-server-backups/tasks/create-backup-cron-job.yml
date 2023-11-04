@@ -1,0 +1,6 @@
+- name: Create hourly cron backup job
+  cron:
+    name: Minecraft server backup every hour
+    user: minecraft
+    job: /opt/minecraft/backups/scripts/backup-server.sh
+    minute: "0"

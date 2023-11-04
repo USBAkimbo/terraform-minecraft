@@ -1,18 +1,14 @@
-- name: Check if Zabbix agent is already installed
-  stat:
-    path: /etc/zabbix
-  register: zabbix_installed
-
-- name: Copy Zabbix package
+- name: Install Zabbix repo
   copy:
-    src: zabbix-agent2_6.2.4-1+ubuntu22.04_arm64.deb
-    dest: /tmp/zabbix-agent2_6.2.4-1+ubuntu22.04_arm64.deb
-  when: not zabbix_installed.stat.exists
+    dest: /etc/apt/sources.list.d/zabbix.list
+    content: |
+      # Zabbix main repository
+      deb https://repo.zabbix.com/zabbix/6.4/ubuntu jammy main
+      deb-src https://repo.zabbix.com/zabbix/6.4/ubuntu jammy main
 
-- name: Install Zabbix package
-  apt:
-    deb: /tmp/zabbix-agent2_6.2.4-1+ubuntu22.04_arm64.deb
-  when: not zabbix_installed.stat.exists
+      # Zabbix unstable repository
+      deb https://repo.zabbix.com/zabbix/6.3/ubuntu jammy main
+      deb-src https://repo.zabbix.com/zabbix/6.3/ubuntu jammy main
 
 - name: apt update
   apt:
@@ -21,25 +17,23 @@
 - name: Install Zabbix Agent 2
   apt:
     name: zabbix-agent2
-    state: present
+    state: latest
 
 - name: Configure Zabbix Agent 2
   template:
-    src: zabbix_agent2.j2
+    src: zabbix_agent2.conf.j2
     dest: /etc/zabbix/zabbix_agent2.conf
     owner: zabbix
     group: zabbix
     mode: 0660
 
-- name: Configure apt update checks
-  copy:
-    src: apt.conf
-    dest: /etc/zabbix/zabbix_agent2.d/apt.conf
-    owner: zabbix
-    group: zabbix
-    mode: 0660
+- name: Add Zabbix user to Docker group
+  user:
+    name: zabbix
+    groups: docker
+  ignore_errors: true
 
-- name: Configure zabbix agent PSK
+- name: Configure Zabbix Agent 2 PSK
   copy:
     src: zabbix-agent-psk
     dest: /etc/zabbix/zabbix-agent-psk
@@ -53,9 +47,3 @@
     name: zabbix-agent2
     state: restarted
     enabled: yes
-
-- name: Fix iptables so it works
-  command: iptables -I INPUT -j ACCEPT
-
-- name: Save iptables rules
-  shell: iptables-save > /etc/iptables/rules.v4

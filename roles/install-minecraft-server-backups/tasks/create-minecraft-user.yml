@@ -1,0 +1,5 @@
+- name: Create Minecraft user account
+  user:
+    name: minecraft
+    shell: /bin/bash
+    home: /opt/minecraft

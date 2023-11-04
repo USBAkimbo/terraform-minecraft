@@ -1,11 +1,11 @@
-- name: Update apt cache
-  apt:
-    update_cache: yes
-
-- name: Configure auto patching
+- name: Configure auto patching with unattended-upgrades
   copy:
     src: 50-unattended-upgrades
     dest: /etc/apt/apt.conf.d/50unattended-upgrades
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
 
 - name: Patch the system
   apt:

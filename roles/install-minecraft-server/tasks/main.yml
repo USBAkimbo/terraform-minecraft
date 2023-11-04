@@ -1,3 +1,2 @@
 ---
-# tasks file for role_auto-update
 - import_tasks: install-minecraft-server.yml

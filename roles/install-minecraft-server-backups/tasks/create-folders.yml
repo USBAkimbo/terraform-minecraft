@@ -1,0 +1,52 @@
+- name: Create Minecraft root directory
+  file:
+    path: /opt/minecraft
+    state: directory
+    recurse: yes
+    owner: minecraft
+    group: minecraft
+    mode: 0770
+
+- name: Create Minecraft server directory
+  file:
+    path: /opt/minecraft/servers
+    state: directory
+    recurse: yes
+    owner: minecraft
+    group: minecraft
+    mode: 0770
+
+- name: Create Minecraft server backup directory
+  file:
+    path: /opt/minecraft/backups
+    state: directory
+    recurse: yes
+    owner: minecraft
+    group: minecraft
+    mode: 0770
+
+- name: Create Minecraft server backup kopia directory
+  file:
+    path: /opt/minecraft/backups/kopia
+    state: directory
+    recurse: yes
+    owner: minecraft
+    group: minecraft
+    mode: 0770
+
+- name: Create Minecraft server backup scripts directory
+  file:
+    path: /opt/minecraft/backups/scripts
+    state: directory
+    recurse: yes
+    owner: minecraft
+    group: minecraft
+    mode: 0770
+
+- name: Create rclone config directory
+  file:
+    path: /opt/minecraft/.config/rclone
+    state: directory
+    recurse: yes
+    owner: minecraft
+    mode: 0600

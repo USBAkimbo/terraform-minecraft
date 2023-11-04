@@ -1,0 +1,24 @@
+# Standard Zabbix configs
+PidFile=/var/run/zabbix/zabbix_agent2.pid
+LogFile=/var/log/zabbix/zabbix_agent2.log
+LogFileSize=0
+PluginSocket=/run/zabbix/agent.plugin.sock
+ControlSocket=/run/zabbix/agent.sock
+TLSConnect=psk
+TLSAccept=psk
+TLSPSKIdentity={{ zabbix_agent_psk_id }}
+TLSPSKFile=/etc/zabbix/zabbix-agent-psk
+AllowKey=system.run[*]
+Server={{ zabbix_server }}
+
+############
+# Userparams
+############
+
+# APT updates
+# Treat security and regular updates differently
+# This is just a simulation, that can be run under zabbix user
+# Since updating packages lists (apt-get update) requires root user,
+# use APT::Periodic or some other functionality for that
+UserParameter=apt.security,apt-get -s upgrade | grep -ci ^inst.*security | tr -d '\n'
+UserParameter=apt.updates,apt-get -s upgrade | grep -iPc '^Inst((?!security).)*$' | tr -d '\n'

@@ -1,0 +1,5 @@
+- name: Fix iptables so it works
+  command: iptables -I INPUT -j ACCEPT
+
+- name: Save iptables rules
+  shell: iptables-save > /etc/iptables/rules.v4

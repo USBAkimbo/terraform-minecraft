@@ -1,0 +1,8 @@
+---
+- import_tasks:
+  - install-tools.yml
+  - create-folders.yml
+  - copy-configs.yml
+  - create-minecraft-user.yml
+  - configure-kopia.yml
+  - create-backup-cron-job.yml

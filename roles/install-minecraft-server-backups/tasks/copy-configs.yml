@@ -1,0 +1,20 @@
+- name: Copy rclone config
+  template:
+    src: rclone.conf.j2
+    dest: /opt/minecraft/.config/rclone/rclone.conf
+    owner: minecraft
+    mode: 0600
+
+- name: Copy backup-server.sh
+  template:
+    src: backup-server.sh.j2
+    dest: /opt/minecraft/backups/scripts/backup-server.sh
+    owner: minecraft
+    mode: 0700
+
+- name: Copy mcrcon
+  copy:
+    src: mcrcon
+    dest: /opt/minecraft/backups/scripts/mcrcon
+    owner: minecraft
+    mode: 0700
