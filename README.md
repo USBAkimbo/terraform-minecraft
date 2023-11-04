@@ -1,24 +1,23 @@
 # What is this?
 - This is a repo for my Terraform config for Oracle Cloud
-- This config automatically creates a minecraft server running Purpur server version 1.19.3
+- This config automatically creates a Minecraft server running Purpur server or All The Mods 9 (depending on the roles you choose)
 - This server is resilient to reboots and crashes, so it should be pretty reliable
 - This performs the following steps
   - Spins up a VM in Oracle Cloud's Always Free tier with the following parameters
     - ARM CPU architecture
-    - Ubuntu Server 22.04
+    - Ubuntu Server 22.04 (currently 2023-09 image)
     - 4 OCPUs (4 vCPUs)
-    - 24GB RAM
+    - 24GB RAM (16GB assigned to the server)
   - Creates a DNS record for your server in Cloudflare DNS
   - Triggers Ansible to
     - Automate OS patching
     - Install Zabbix agent for monitoring
+    - Configure automated Minecraft backups locally with copies to Mega
     - Install and setup Minecraft server
-    - Copy rclone config
-- At the bottom of this readme there's steps on setting up the backups using Kopia
 
 # Requirements
 - Linux machine to run this from (WSL works on Windows)
-- Terraform
+- [Terraform](https://tfswitch.warrensbox.com/Install/)
 - Ansible
 - [OCI-CLI](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm)
 - [Oracle Terraform docs for reference](https://learn.hashicorp.com/collections/terraform/oci-get-started)
@@ -31,15 +30,12 @@
 git clone https://github.com/USBAkimbo/terraform-minecraft
 cd terraform-minecraft
 ```
-- Initialize Terraform
+- Copy the example vars files
 ```
-terraform init
+cp terraform.tfvars.example terraform.tfvars
+cp backend.tf.example backend.tf
 ```
-- Copy the example vars file
-```
-cp tfvars.example terraform.tfvars
-```
-- Modify the `terraform.tfvars` file to include your Oracle account variables and Cloudflare variables
+- Edit the files and fill in your vars (using variables.tf as a reference)
 - Modify `ansible-config.yml` to include your variables
 - My example uses my Ansible Vault strings
 - You can do this using
@@ -69,84 +65,54 @@ ansible-vault encrypt_string yourstringhere
 - Create the `ansible-vault-key` file to allow Ansible to run in Terraform config
 ```
 echo "vaultpasswordhere" >> ansible-vault-key
+chmod 600 ansible-vault-key
 ```
-- Once this is all done, run the following to start the build
+- Initialize Terraform, plan and apply
 ```
+terraform init
+terraform plan
 terraform apply
 ```
 - Note that this will probably fail for the first time on the Ansible step
-- This is because the VM isn't ready just yet
+- This is because the VM isn't ready for SSH connections yet
 - If it does fail, just re-run the `terraform apply` again
-- That should be it! Give it a few minutes and your server should be up
 - It may also fail due to capacity issues on Oracle's end
 - If this happens, create a cron job to run every 6 hours that does a `terraform apply -auto-approve` to automatically create the VM for you
 - I'd also recommend you read through the roles folder and tweak the config to what you want
+- That should be it! Give it a few minutes and your server should be up
 
 # Backups
-## Before you start
-- Before you do this, check if the Kopia and rclone versions are up to date in the `install-minecraft-server.yml` Ansible config file
-- I might not keep them up to date, so just double check
+- Backups run every hour via a cron job as root
+- The backups go to a local repo under `/opt/minecraft/backups/kopia`
+- The backup folder is then rcloned to Mega so there's an off-server copy
 
 ## rclone config
-- To setup the backups, su to the `minecraft` user
-```
-root@server$ su minecraft
-```
-- Then run
-```
-rm /opt/minecraft/.config/rclone/rclone.conf
-```
-- This will remove my config
-- Then run
-```
-rclone config
-```
-- Follow the wizard to connect rclone to your cloud storage provider
-- Cool, now you have rclone configured
+- Run rclone on a machine to set up a config file for Mega
+- This will contain your username and password
+- Copy those, encrypt them and use them as vars in `ansible-config.yml`
 
 ## Kopia config
-- Run the following to create and connect to the Kopia local backup repo
-- This lives under `/opt/minecraft-backups`
-```
-kopia repository create filesystem --path /opt/minecraft-backups
-kopia repository connect filesystem --path /opt/minecraft-backups
-```
-- Now take a snapshot of your Minecraft folder to confirm it works
-```
-kopia snapshot create /opt/minecraft
-kopia snapshot list
-```
-- You should now have a snapshot, so the backups work!
-- You can also modify the Kopia policy for backup retention using the following example commands
+- You just need to provide a Kopia repo password in `ansible-config.yml`
+- Kopia then uses the below policy settings
 ```
 kopia policy set --global --keep-hourly 24
 kopia policy set --global --keep-daily 7
 kopia policy set --global --keep-weekly 4
-kopia policy set --global --keep-monthly 2
-kopia policy set --global --keep-annual 0
+kopia policy set --global --keep-monthly 12
+kopia policy set --global --keep-annual 3
 ```
 - These commands will keep
   - 24 hourly backups (hourly backups for 1 day)
   - 7 daily backups (daily backups for 1 week)
   - 4 weekly backups (weekly backups for 1 month)
-  - 2 monthly backups (1 backup per month for 2 months)
-  - 0 yearly backups (enable this if you want)
+  - 12 monthly backups (monthly backups for a year)
+  - 3 yearly backups (3 years of backups)
 - [Read the Kopia docs for more info](https://kopia.io/docs/)
 
 ## Backup script
-- Now you need to modify `backup-server.sh` in `/opt/minecraft`
-- The mcrcon password should be what you set in your Ansible config
-- Just ensure that your 2 commands that matter are correct
-- These are
-```
-kopia snapshot create /opt/minecraft
-rclone sync /opt/minecraft-backups mega:
-```
-- This entire script does the following
+- The backup script does the following
   - Disables auto saving (prevents the snapshot copying files in use, which may become corrupt)
   - Does a manual save
   - Creates a backup using Kopia
   - Enables auto saving
-  - rclones the backups folder to your rclone remote storage
-- That should be it
-- The Ansible config automatically creates an hourly cron job to run the backup script, so you should now get automatic hourly backups
+  - rclones the backups folder to your rclone Mega storage
