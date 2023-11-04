@@ -47,6 +47,12 @@ variable "availability_domain_number" {
   type        = number
   default     = "2"
 }
+variable "object_storage_url" {
+  description = "URL to your Oracle object storage account"
+  sensitive   = true
+  type        = string
+  default     = "https://objectstorage.us-phoenix-1.oraclecloud.com/<my-access-uri>"
+}
 
 # Compute vars
 variable "vm_name" {
