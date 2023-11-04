@@ -1,6 +1,6 @@
 #!/bin/bash
 function mcrcon {
-/opt/minecraft/mcrcon -p {{ mcrcon_password }} "$1"
+/opt/minecraft/backups/scripts/mcrcon -p {{ mcrcon_password }} "$1"
 }
 
 mcrcon "say [Info] Hourly server backup starting"
