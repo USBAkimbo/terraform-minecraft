@@ -1,12 +1,3 @@
-- name: Set permissions on kopia config
-  file:
-    path: /opt/minecraft/.config
-    state: directory
-    mode: 0660
-    owner: minecraft
-    group: minecraft
-    recurse: true
-
 - name: Install cron
   apt:
     name: cron
@@ -15,6 +6,5 @@
 - name: Create hourly cron backup job
   cron:
     name: Minecraft server backup every hour
-    user: minecraft
     job: /opt/minecraft/backups/scripts/backup-server.sh
     minute: "0"

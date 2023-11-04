@@ -6,18 +6,53 @@
     owner: minecraft
     group: minecraft
 
+- name: Install zip
+  apt:
+    name: zip
+    state: latest
+
 - name: Check if server has already been downloaded
   stat:
     path: /opt/minecraft/servers/atm9/eula.txt
   register: atm9_installed
 
-- name: Download All The Mods 9 v0.2.11
+- name: Create /tmp/atm9
+  file:
+    path: /tmp/atm9
+    state: directory
+  when: not atm9_installed.stat.exists
+
+- name: Download All The Mods 9 v0.2.11 zip
+  get_url:
+    url: https://mediafilez.forgecdn.net/files/4830/340/Server-Files-0.2.11.zip
+    dest: /tmp/atm9/Server-Files-0.2.11.zip
+    mode: 0700
+  when: not atm9_installed.stat.exists
+
+- name: Extract All The Mods 9 v0.2.11 zip
   unarchive:
-    src: https://mediafilez.forgecdn.net/files/4830/340/Server-Files-0.2.11.zip
+    remote_src: true
+    src: /tmp/atm9/Server-Files-0.2.11.zip
+    dest: /tmp/atm9
+    mode: 0770
+    owner: minecraft
+    group: minecraft
+  when: not atm9_installed.stat.exists
+
+- name: Copy All The Mods 9 v0.2.11 files
+  copy:
+    remote_src: true
+    src: /tmp/atm9/Server-Files-0.2.11/
     dest: /opt/minecraft/servers/atm9/
     mode: 0770
     owner: minecraft
     group: minecraft
+  when: not atm9_installed.stat.exists
+
+- name: Cleanup All The Mods 9 v0.2.11 files
+  file:
+    path: /tmp/atm9
+    state: absent
   when: not atm9_installed.stat.exists
 
 - name: Accept EULA
