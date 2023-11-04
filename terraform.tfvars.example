@@ -1,7 +1,7 @@
 # Account info vars
-tenancy_ocid               = "terraform.tfvars"
-user_ocid                  = "terraform.tfvars"
-compartment_ocid           = "terraform.tfvars"
+tenancy_ocid               = "xxxx"
+user_ocid                  = "xxxx"
+compartment_ocid           = "xxxx"
 fingerprint                = "xxxx"
 private_key_path           = "/home/user/.oci/oci-priv.pem"
 public_key_path            = "/home/user/.oci/oci-pub.pem"
