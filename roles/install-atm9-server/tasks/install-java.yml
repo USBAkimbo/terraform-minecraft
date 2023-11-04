@@ -1,0 +1,4 @@
+- name: Install Java JRE 19
+  apt:
+    name: openjdk-19-jre-headless
+    state: latest

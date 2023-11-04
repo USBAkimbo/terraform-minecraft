@@ -1,11 +1,16 @@
 # Encrypt a var using this
 # ansible-vault encrypt_string "mystringhere" --vault-password-file ./ansible-vault-key
 
+# Decrypt a var using this
+# Create a file containg just the $ANSIBLE_VAULT... part then run this
+# ansible-vault decrypt decryptthisfile.yml
+
 - hosts: all
   roles:
     - patch
     - install-zabbix-agent2
-    - install-minecraft-server
+    - install-minecraft-server-backups
+    - install-atm9-server
     - fix-iptables
   vars:
     mcrcon_password: !vault |

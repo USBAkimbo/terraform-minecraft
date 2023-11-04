@@ -1,0 +1,19 @@
+[Unit]
+Description=Minecraft Server
+After=network.target
+
+[Service]
+User=minecraft
+Nice=1
+KillMode=none
+SuccessExitStatus=0 1
+ProtectHome=true
+ProtectSystem=full
+PrivateDevices=true
+NoNewPrivileges=true
+WorkingDirectory=/opt/minecraft/servers/atm9
+ExecStart=/opt/minecraft/servers/atm9/startserver.sh
+ExecStop=/opt/minecraft/mcrcon -H 127.0.0.1 -P 25575 -p {{ mcrcon_password }} stop
+
+[Install]
+WantedBy=multi-user.target

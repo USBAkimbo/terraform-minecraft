@@ -27,12 +27,6 @@
     group: zabbix
     mode: 0660
 
-- name: Add Zabbix user to Docker group
-  user:
-    name: zabbix
-    groups: docker
-  ignore_errors: true
-
 - name: Configure Zabbix Agent 2 PSK
   copy:
     src: zabbix-agent-psk
@@ -41,6 +35,18 @@
     owner: zabbix
     group: zabbix
     mode: 0660
+
+- name: Add Zabbix user to Docker group
+  user:
+    name: zabbix
+    groups: docker
+  ignore_errors: true
+
+- name: Add Zabbix account to Minecraft group
+  user:
+    name: zabbix
+    groups:
+      - minecraft
 
 - name: Restart and enable Zabbix Agent 2 service
   systemd:

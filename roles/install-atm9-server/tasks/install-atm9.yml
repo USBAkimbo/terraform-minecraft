@@ -1,0 +1,61 @@
+- name: Check if server has already been downloaded
+  stat:
+    path: /opt/minecraft/servers/atm9/eula.txt
+  register: atm9_installed
+
+- name: Download All The Mods 9 v0.2.11
+  get_url:
+    url: https://mediafilez.forgecdn.net/files/4830/340/Server-Files-0.2.11.zip
+    dest: /opt/minecraft/servers/atm9/
+    mode: 0770
+    owner: minecraft
+    group: minecraft
+  when: not atm9_installed.stat.exists
+
+- name: Accept EULA
+  copy:
+    dest: /opt/minecraft/servers/atm9/eula.txt
+    content: eula=true
+    mode: 0660
+    owner: minecraft
+    group: minecraft
+   
+- name: Copy server.properties
+  template:
+    src: server.properties.j2
+    dest: /opt/minecraft/servers/atm9/server.properties
+    mode: 0660
+    owner: minecraft
+    group: minecraft
+
+- name: Copy startserver.sh
+  copy:
+    src: startserver.sh
+    dest: /opt/minecraft/servers/atm9/startserver.sh
+    mode: 0770
+    owner: minecraft
+    group: minecraft
+
+- name: Copy user_jvm_args.txt
+  copy:
+    src: user_jvm_args.txt
+    dest: /opt/minecraft/servers/atm9/user_jvm_args.txt
+    mode: 0660
+    owner: minecraft
+    group: minecraft
+
+- name: Copy whitelist.json
+  copy:
+    src: whitelist.json
+    dest: /opt/minecraft/servers/atm9/whitelist.json
+    mode: 0660
+    owner: minecraft
+    group: minecraft
+
+- name: Copy ops.json
+  copy:
+    src: ops.json
+    dest: /opt/minecraft/servers/atm9/ops.json
+    mode: 0660
+    owner: minecraft
+    group: minecraft

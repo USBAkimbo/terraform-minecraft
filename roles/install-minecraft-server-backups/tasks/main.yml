@@ -1,6 +1,6 @@
 ---
 - import_tasks:
-  - install-tools.yml
+  - install-rclone.yml
   - create-folders.yml
   - copy-configs.yml
   - create-minecraft-user.yml

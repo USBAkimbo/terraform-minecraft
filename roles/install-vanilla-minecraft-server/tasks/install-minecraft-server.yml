@@ -1,0 +1,88 @@
+- name: Install Java JRE 19
+  apt:
+    name: openjdk-19-jre-headless
+    state: latest
+
+- name: Create Minecraft server data directory
+  file:
+    path: /opt/minecraft/servers/vanilla
+    state: directory
+    recurse: yes
+    owner: minecraft
+    group: minecraft
+    mode: 0750
+
+- name: Check if Purpur is already installed
+  stat:
+    path: /opt/minecraft/servers/vanilla/purpur-server.jar
+  register: purpur_installed
+
+- name: Download Purpur
+  get_url:
+    url: https://api.purpurmc.org/v2/purpur/1.19.4/latest/download
+    dest: /opt/minecraft/purpur-server.jar
+    owner: minecraft
+    mode: 0700
+  when: not purpur_installed.stat.exists
+
+- name: Copy server.properties
+  template:
+    src: server.properties.j2
+    dest: /opt/minecraft/server.properties
+    owner: minecraft
+    mode: 0600
+
+- name: Copy backup-server.sh
+  template:
+    src: backup-server.sh.j2
+    dest: /opt/minecraft/backup-server.sh
+    owner: minecraft
+    mode: 0700
+
+- name: Copy minecraft.service
+  template:
+    src: minecraft.service.j2
+    dest: /etc/systemd/system/minecraft.service
+    owner: root
+    mode: 0644
+
+- name: Copy EULA
+  copy:
+    src: eula.txt
+    dest: /opt/minecraft/eula.txt
+    owner: minecraft
+    mode: 0600
+
+- name: Copy mcrcon
+  copy:
+    src: mcrcon
+    dest: /opt/minecraft/mcrcon
+    owner: minecraft
+    mode: 0700
+
+- name: Copy run-server.sh
+  copy:
+    src: run-server.sh
+    dest: /opt/minecraft/run-server.sh
+    owner: minecraft
+    mode: 0700
+
+- name: Copy spigot.yml
+  copy:
+    src: spigot.yml
+    dest: /opt/minecraft/spigot.yml
+    owner: minecraft
+    mode: 0600
+
+- name: Copy purpur.yml
+  copy:
+    src: purpur.yml
+    dest: /opt/minecraft/purpur.yml
+    owner: minecraft
+    mode: 0600
+
+- name: Start server and enable Minecraft service
+  systemd:
+    name: minecraft
+    state: started
+    enabled: yes
