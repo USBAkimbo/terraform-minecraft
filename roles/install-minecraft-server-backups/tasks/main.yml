@@ -1,8 +1,7 @@
 ---
-- import_tasks:
-  - install-rclone.yml
-  - create-folders.yml
-  - copy-configs.yml
-  - create-minecraft-user.yml
-  - configure-kopia.yml
-  - create-backup-cron-job.yml
+- import_tasks: install-rclone.yml
+- import_tasks: create-folders.yml
+- import_tasks: copy-configs.yml
+- import_tasks: create-minecraft-user.yml
+- import_tasks: configure-kopia.yml
+- import_tasks: create-backup-cron-job.yml

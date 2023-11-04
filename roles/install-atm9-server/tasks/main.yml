@@ -1,5 +1,4 @@
 ---
-- import_tasks:
-  - install-java.yml
-  - install-atm9.yml
-  - configure-minecraft-service.yml
+- import_tasks: install-java.yml
+- import_tasks: install-atm9.yml
+- import_tasks: configure-minecraft-service.yml
