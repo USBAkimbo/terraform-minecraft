@@ -14,7 +14,7 @@ vm_name     = "minecraft"
 vm_shape    = "VM.Standard.A1.Flex"
 vm_ocpus    = "4"
 vm_ram      = "24"
-vm_os_image = "ocid1.image.oc1.uk-london-1.aaaaaaaadss7wmtwyocobcpmikosddt7bwb6rkvyvua36pvkfig3ezfr2b3a" # Sep 2023 image - https://docs.oracle.com/en-us/iaas/images/image/84a75e6a-f775-4fb8-b934-6104d7c5ea0d/
+vm_os_image = "ocid1.image.oc1.uk-london-1.aaaaaaaajerecpbuhh25lwb3d5qpmqhjovyave6rxnzw4nugqffd4frnwafq"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   # Sep 2023 image - https://docs.oracle.com/en-us/iaas/images/image/a73bacfa-cf56-4833-9f83-13a261f9829c/
 ssh_key     = "xxxx"                                                                                     # SSH public key
 
 # Networking vars
