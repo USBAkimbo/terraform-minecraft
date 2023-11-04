@@ -34,7 +34,6 @@
     dest: /etc/zabbix/zabbix-agent-psk
     decrypt: yes
     owner: zabbix
-    group: zabbix
     mode: 0660
 
 - name: Add Zabbix user to Docker group
