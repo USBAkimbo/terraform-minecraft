@@ -8,9 +8,9 @@
     path: /opt/minecraft/servers/vanilla
     state: directory
     recurse: yes
+    mode: 0770
     owner: minecraft
     group: minecraft
-    mode: 0750
 
 - name: Check if Purpur is already installed
   stat:
@@ -19,70 +19,41 @@
 
 - name: Download Purpur
   get_url:
-    url: https://api.purpurmc.org/v2/purpur/1.19.4/latest/download
-    dest: /opt/minecraft/purpur-server.jar
+    url: https://api.purpurmc.org/v2/purpur/1.20.2/latest/download
+    dest: /opt/minecraft/servers/vanilla/purpur-server.jar
+    mode: 0770
     owner: minecraft
-    mode: 0700
+    group: minecraft
   when: not purpur_installed.stat.exists
 
 - name: Copy server.properties
   template:
     src: server.properties.j2
-    dest: /opt/minecraft/server.properties
+    dest: /opt/minecraft/servers/vanilla/server.properties
+    mode: 0660
     owner: minecraft
-    mode: 0600
+    group: minecraft
 
-- name: Copy backup-server.sh
-  template:
-    src: backup-server.sh.j2
-    dest: /opt/minecraft/backup-server.sh
-    owner: minecraft
-    mode: 0700
-
-- name: Copy minecraft.service
-  template:
-    src: minecraft.service.j2
-    dest: /etc/systemd/system/minecraft.service
-    owner: root
-    mode: 0644
-
-- name: Copy EULA
+- name: Accept EULA
   copy:
-    src: eula.txt
-    dest: /opt/minecraft/eula.txt
+    dest: /opt/minecraft/servers/vanilla/eula.txt
+    content: eula=true
+    mode: 0660
     owner: minecraft
-    mode: 0600
-
-- name: Copy mcrcon
-  copy:
-    src: mcrcon
-    dest: /opt/minecraft/mcrcon
-    owner: minecraft
-    mode: 0700
+    group: minecraft
 
 - name: Copy run-server.sh
   copy:
     src: run-server.sh
-    dest: /opt/minecraft/run-server.sh
+    dest: /opt/minecraft/servers/vanilla/run-server.sh
+    mode: 0770
     owner: minecraft
-    mode: 0700
+    group: minecraft
 
 - name: Copy spigot.yml
   copy:
     src: spigot.yml
     dest: /opt/minecraft/spigot.yml
+    mode: 0660
     owner: minecraft
-    mode: 0600
-
-- name: Copy purpur.yml
-  copy:
-    src: purpur.yml
-    dest: /opt/minecraft/purpur.yml
-    owner: minecraft
-    mode: 0600
-
-- name: Start server and enable Minecraft service
-  systemd:
-    name: minecraft
-    state: started
-    enabled: yes
+    group: minecraft

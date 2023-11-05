@@ -1,2 +1,3 @@
 ---
 - import_tasks: install-minecraft-server.yml
+- import_tasks: configure-minecraft-service.yml

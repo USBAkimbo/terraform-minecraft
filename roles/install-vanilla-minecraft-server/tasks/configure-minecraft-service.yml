@@ -1,0 +1,16 @@
+- name: Copy minecraft.service
+  template:
+    src: minecraft.service.j2
+    dest: /etc/systemd/system/minecraft.service
+    owner: root
+    mode: 0644
+
+- name: Reload systemd daemons
+  systemd:
+    daemon_reload: true
+
+- name: Start server and enable Minecraft service
+  systemd:
+    name: minecraft
+    state: started
+    enabled: yes
