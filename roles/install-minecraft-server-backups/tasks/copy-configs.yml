@@ -17,4 +17,4 @@
     src: mcrcon
     dest: /opt/minecraft/backups/scripts/mcrcon
     owner: minecraft
-    mode: 0700
+    mode: 0755
