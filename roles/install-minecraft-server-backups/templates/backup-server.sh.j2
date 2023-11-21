@@ -19,11 +19,3 @@ mcrcon "save-on"
 sleep 1s
 
 mcrcon "say [Info] Server backup complete"
-sleep 1s
-
-mcrcon "say [Info] Copying all local server backups to Mega"
-rclone sync --create-empty-src-dirs /opt/minecraft/backups/kopia mega:
-sleep 1s
-
-mcrcon "say [Info] Backup copy complete"
-sleep 1s
