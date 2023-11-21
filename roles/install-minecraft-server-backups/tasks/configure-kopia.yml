@@ -32,3 +32,4 @@
       kopia policy set --global --keep-monthly 12
       kopia policy set --global --keep-annual 3
       kopia policy set --global --keep-latest 0
+  when: not kopia_configured.stat.exists
