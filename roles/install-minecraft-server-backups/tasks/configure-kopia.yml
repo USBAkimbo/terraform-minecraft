@@ -16,8 +16,12 @@
     path: /opt/minecraft/backups/kopia/kopia.repository.f
   register: kopia_configured
 
-- name: Create kopia local filesystem repository
-  shell: kopia repository create filesystem --path /opt/minecraft/backups/kopia -p={{ kopia_password }}
+- name: Create Kopia repository
+  shell: kopia repository create b2 -p={{ kopia_password }} --bucket={{ kopia_b2_bucket_name }} --key-id={{ kopia_b2_bucket_key_id }} --key={{ kopia_b2_bucket_key }}
+  when: not kopia_configured.stat.exists
+
+- name: Connect to Kopia repository
+  shell: kopia repository connect b2 -p={{ kopia_password }} --bucket={{ kopia_b2_bucket_name }} --key-id={{ kopia_b2_bucket_key_id }} --key={{ kopia_b2_bucket_key }}
   when: not kopia_configured.stat.exists
 
 - name: Configure Kopia snapshot retention policy
