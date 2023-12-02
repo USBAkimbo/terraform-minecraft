@@ -19,6 +19,13 @@ Unattended-Upgrade::Allowed-Origins {
 //      "${distro_id}:${distro_codename}-backports";
 };
 
+// Set dpkg to keep the current package config file
+// Useful for Zabbix updates to prevent the config from being wiped
+Dpkg::Options {
+   "--force-confdef";
+   "--force-confold";
+};
+
 // Python regular expressions, matching packages to exclude from upgrading
 Unattended-Upgrade::Package-Blacklist {
     // The following matches all packages starting with linux-
@@ -102,7 +109,7 @@ Unattended-Upgrade::Automatic-Reboot-WithUsers "true";
 // If automatic reboot is enabled and needed, reboot at the specific
 // time instead of immediately
 //  Default: "now"
-Unattended-Upgrade::Automatic-Reboot-Time "07:00";
+Unattended-Upgrade::Automatic-Reboot-Time "06:00";
 
 // Use apt bandwidth limit feature, this example limits the download
 // speed to 70kb/sec
