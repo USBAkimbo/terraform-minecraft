@@ -1,4 +1,7 @@
 # Backend
+# This uses the block storage that comes with an OCI account
+# The address is the full URL to your terraform.tfstate file
+# You might need to create this blank file in a bucket first before the backend will work
 terraform {
   backend "http" {
     address       = "https://objectstorage...."
