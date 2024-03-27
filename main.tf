@@ -1,31 +1,3 @@
-# Configure provider versions
-terraform {
-  required_providers {
-    oci = {
-      source  = "oracle/oci"
-      version = "5.16.0"
-    }
-    cloudflare = {
-      source  = "cloudflare/cloudflare"
-      version = "4.16.0"
-    }
-  }
-}
-
-# OCI provider
-provider "oci" {
-  region           = var.region
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
-}
-
-# Cloudflare provider
-provider "cloudflare" {
-  api_token = var.cf_api_token
-}
-
 # Availability domain config
 data "oci_identity_availability_domain" "ad" {
   compartment_id = var.tenancy_ocid
