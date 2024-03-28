@@ -1,3 +1,8 @@
----
-# tasks file for role_auto-update
-- import_tasks: fix-iptables.yml
+- name: Fix iptables so it works on OCI
+  command: iptables -I INPUT -j ACCEPT
+
+- name: Flush iptables
+  command: iptables -F
+
+- name: Save iptables rules
+  shell: iptables-save > /etc/iptables/rules.v4
