@@ -1,3 +1,0 @@
----
-# tasks file for role_auto-update
-- import_tasks: patch.yml

@@ -7,7 +7,7 @@
 
 - hosts: all
   roles:
-    - patch
+    - enable-auto-update
     - install-zabbix-agent2
     - install-minecraft-server-backups
     - install-atm9-server
