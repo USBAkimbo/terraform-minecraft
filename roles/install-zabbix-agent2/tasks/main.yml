@@ -3,21 +3,16 @@
     name: gpg
     state: latest
 
-- name: Install Zabbix repo
-  copy:
-    dest: /etc/apt/sources.list.d/zabbix.list
-    content: |
-      # Zabbix main repository
-      deb https://repo.zabbix.com/zabbix/{{ zabbix_version }}/ubuntu jammy main
-      deb-src https://repo.zabbix.com/zabbix/{{ zabbix_version }}/ubuntu jammy main
-
-      # Zabbix unstable repository
-      #deb https://repo.zabbix.com/zabbix/6.3/ubuntu jammy main
-      #deb-src https://repo.zabbix.com/zabbix/6.3/ubuntu jammy main
-
-- name: Add Zabbix repo key
-  apt_key:
+# https://www.jeffgeerling.com/blog/2022/aptkey-deprecated-debianubuntu-how-fix-ansible
+- name: Add Zabbix apt repo key
+  ansible.builtin.get_url:
     url: https://repo.zabbix.com/zabbix-official-repo.key
+    dest: /etc/apt/trusted.gpg.d/zabbix-official-repo.asc
+    mode: '0644'
+
+- name: Add Zabbix apt repo
+  ansible.builtin.apt_repository:
+    repo: "deb https://repo.zabbix.com/zabbix/{{ zabbix_version }}/{{ ansible_distribution|lower }} {{ ansible_distribution_release }} main"
     state: present
 
 - name: apt update
@@ -29,14 +24,6 @@
     name: zabbix-agent2
     state: latest
   notify: Restart and enable Zabbix Agent 2 service
-
-- name: Configure Zabbix Agent 2 PSK
-  copy:
-    src: zabbix-agent-psk
-    dest: /etc/zabbix/zabbix-agent-psk
-    decrypt: yes
-    owner: zabbix
-    mode: 0600
 
 - name: Configure Zabbix Agent 2
   template:
@@ -51,11 +38,4 @@
   user:
     name: zabbix
     groups: docker
-  ignore_errors: true
-
-- name: Add Zabbix account to Minecraft group
-  user:
-    name: zabbix
-    groups:
-      - minecraft
   ignore_errors: true
